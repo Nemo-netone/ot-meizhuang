@@ -1,0 +1,639 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml"
+	  xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="content-type" content="no-cache, must-revalidate" />
+	<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT"/>
+	<title>数据安全与权限设置</title>
+
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../css/nav.css">
+	<link rel="stylesheet" href="../css/font-awesome.css">
+	<link rel="stylesheet" href="../css/element/index.css">
+
+	<style>
+		[v-cloak] {
+			display: none;
+		}
+
+		/* 纵向排列样式 */
+		.radio-group-vertical {
+			display: flex;
+			flex-direction: column;  /* 关键属性：改为垂直布局 */
+			gap: 6px;  /* 垂直间距 */
+			padding: 8px 0;
+		}
+
+		.radio-vertical-item {
+			display: flex;
+			align-items: center;
+			min-height: 28px;
+		}
+
+		.radio-vertical-item input {
+			margin-right: 6px;
+		}
+
+		/* 保持自定义单选框样式 */
+		input[type="radio"] {
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			width: 16px;
+			height: 16px;
+			border: 2px solid #ccc;
+			border-radius: 50%;
+			transition: all 0.2s ease;
+		}
+
+		input[type="radio"]:checked {
+			border-color: #42b983;
+			background-color: #42b983;
+			box-shadow: inset 0 0 0 3px white;
+		}
+		/* 添加点击动画 */
+		input[type="radio"]:active {
+			transform: scale(0.95);
+		}
+
+		/* 添加过渡效果 */
+		.radio-vertical-item {
+			transition: background-color 0.3s ease;
+		}
+
+		/* 选中状态高亮 */
+		.radio-vertical-item input:checked + span {
+			color: #42b983;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+<div id="wrapper" v-cloak>
+	<!--导航栏-->
+	<div class="menuW" style="float: left">
+		<div class="sideMenu">
+			<div class="head">{{system.title}}</div>
+			<ul>
+				<li class="nLi">
+					<h3><i class="fa fa-dashboard"></i>首页<span class="fa fa-angle-up arrow"></span></h3>
+					<ul class="sub">
+						<li><a href="index.html"><i class="fa fa-dashboard"></i>数据分忻</a></li>
+					</ul>
+				</li>
+
+				<li class="nLi" v-if="this.user.role == 3">
+					<h3><i class="fa fa fa-dashboard icon"></i>商家管理<span class="fa fa-angle-up arrow"></span>
+					</h3>
+					<ul class="sub">
+
+						<li v-if="authority.indexOf(1000007) != -1">
+							<a href="shopInfoSet.html"><i class="fa fa-table"></i>店铺信息设置与维护</a>
+						</li>
+						<li v-if="authority.indexOf(1000008) != -1">
+							<a href="messageInfo.html"><i class="fa fa-table"></i>美妆知识资讯分享</a>
+						</li>
+						<li v-if="authority.indexOf(1000009) != -1">
+							<a href="typeInfo.html"><i class="fa fa-table"></i>商品类别管理</a>
+						</li>
+						<li v-if="authority.indexOf(1000010) != -1">
+							<a href="goodsInfo.html"><i class="fa fa-table"></i>商品管理</a>
+						</li>
+						<li v-if="authority.indexOf(1000011) != -1">
+							<a href="orderInfo.html"><i class="fa fa-table"></i>订单处理</a>
+						</li>
+						<li v-if="authority.indexOf(1000012) != -1">
+							<a href="marketingCampaign.html"><i class="fa fa-table"></i>营销活动设置</a>
+						</li>
+
+						<li v-if="authority.indexOf(1000013) != -1">
+							<a href="adminInfo.html"><i class="fa fa-table"></i>客服团队管理</a>
+						</li>
+						<li v-if="authority.indexOf(1000014) != -1">
+							<a href="adminInfo.html"><i class="fa fa-table"></i>店铺系统布局调整</a>
+
+						</li>
+					</ul>
+				</li>
+				<li class="nLi" v-if="this.user.role == 2">
+					<h3><i class="fa fa fa-dashboard icon"></i>客服人员<span class="fa fa-angle-up arrow"></span>
+					</h3>
+					<ul class="sub">
+
+						<li v-if="authority.indexOf(2000001) != -1">
+							<a href="commentInfo.html"><i class="fa fa-table"></i>用户咨询回复</a>
+						</li>
+
+						<li v-if="authority.indexOf(2000002) != -1">
+							<a href="orderIssueHandling.html"><i class="fa fa-table"></i>订单问题处理</a>
+						</li>
+						<li v-if="authority.indexOf(2000003) != -1">
+							<a href="orderReturnsExchanges.html"><i class="fa fa-table"></i>商品退换货协助</a>
+						</li>
+						<li v-if="authority.indexOf(2000004) != -1">
+							<a href="orderSaleServiceFollow.html"><i class="fa fa-table"></i>售后服务跟进</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nLi  on" v-if="this.user.role == 1">
+					<h3><i class="fa fa fa-dashboard icon"></i>系统管理员<span class="fa fa-angle-up arrow"></span>
+					</h3>
+					<ul class="sub">
+						<li v-if="authority.indexOf(2) != -1">
+							<a href="systemInfoSet.html"><i class="fa fa-table"></i>系统配置与维护</a>
+						</li>
+						<li v-if="authority.indexOf(3) != -1">
+							<a href="userInfo.html"><i class="fa fa-table"></i>用户与商家审核管理</a>
+						</li>
+						<li v-if="authority.indexOf(3) != -1">
+							<a href="accounSecurityRole.html"  class="active"><i class="fa fa-table"></i>数据安全管理和权限设置</a>
+						</li>
+						<li v-if="authority.indexOf(3) != -1">
+							<a href="troubleshooting.html"><i class="fa fa-table"></i>故障排查与系统升级</a>
+						</li>
+						<li v-if="authority.indexOf(3) != -1">
+							<a href="dataAnalysis.html"><i class="fa fa-table"></i>数据分析报告</a>
+						</li>
+						<li v-if="authority.indexOf(1000001) != -1">
+							<a href="advertiserInfo.html"><i class="fa fa-table"></i>公告信息</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" @click="personalPage"><i class="fa fa-user"></i>个人信息</a>
+						</li>
+					</ul>
+				</li>
+
+				<li class="nLi">
+					<h3><i class="fa fa-unlock-alt"></i>修改密码<span class="fa fa-angle-up arrow"></span></h3>
+					<ul class="sub">
+						<li>
+							<a href="updatePassword.html"><i class="fa fa-unlock-alt"></i>修改密码</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nLi">
+					<h3><i class="fa fa-power-off"></i>退出登录<span class="fa fa-angle-up arrow"></span></h3>
+					<ul class="sub">
+						<li>
+							<a href="javascript:void(0)" @click="logout"><i class="fa fa-power-off"></i>退出登录</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!-- 主体 -->
+	<div class="main">
+		<!-- 头部开始 -->
+		<div class="main-head" style="width: 100%; display: flex">
+			<div style="flex: 1; text-align: right">
+
+				<a href="javascript:void(0)" @click="personalPage">当前登录：<span style="color: #333333">{{user.name}}</span></a>
+				<a href="javascript:void(0)" @click="logout">退出登录</a>
+			</div>
+		</div>
+		<!-- 头部结束 -->
+
+		<!-- 主体开始 -->
+		<div style="padding: 0 20px">
+			<div>
+				<div class="table-title">数据安全管理和权限设置</div>
+			</div>
+
+			<!-- 表格主体-->
+			<div style="margin-top: 10px">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">数据安全管理和权限设置</div>
+							<div class="panel-body">
+								<div class="table-responsive">
+									<div class="nx-table-header" style="position: relative">
+										<button class="btn btn-sm btn-primary" v-on:click="add()">新增</button>
+										<input type="text" placeholder="请输入搜索内容" v-model="name" @keyup.enter="loadTable(1)">
+										<i class="glyphicon glyphicon-search" style="margin-left: -20px"></i>
+									</div>
+
+									<table class="table table-striped table-bordered table-hover" style="margin-top: 10px">
+										<thead>
+										<tr>
+
+											<th>姓名</th>
+											<th>昵称</th>
+											<th>性别</th>
+											<th>年龄</th>
+											<th>生日</th>
+											<th>手机号</th>
+											<th>地址</th>
+											<th>编号</th>
+											<th>邮箱</th>
+											<th>身份证</th>
+											<th>角色权限</th>
+											<th>操作</th>
+										</tr>
+										</thead>
+										<tbody v-for="obj in objs">
+										<tr>
+
+											<td>{{obj.name}}</td>
+											<td>{{obj.nickName}}</td>
+											<td>{{obj.sex}}</td>
+											<td>{{obj.age}}</td>
+											<td>{{obj.birthday}}</td>
+											<td>{{obj.phone}}</td>
+											<td>{{obj.address}}</td>
+											<td>{{obj.code}}</td>
+											<td>{{obj.email}}</td>
+											<td>{{obj.cardId}}</td>
+											<td>
+												<div class="radio-group-vertical" v-if="obj.name!='admin'" > <!-- 添加垂直布局类 -->
+													<label v-for="option in options"
+														   :key="option.value"
+														   class="radio-vertical-item"> <!-- 纵向项样式 -->
+														<input
+																type="radio"
+																:value="option.value"
+																v-model="obj.role"
+																:name="'radioGroup' + obj.id"
+																:id="'radio_' + obj.id + '_' + option.value"
+																@change="handleRadioChange(obj, option.value)"
+														>
+														<span>{{ option.label }}</span>
+													</label>
+												</div>
+											</td>
+											<td>
+												<button class="btn btn-primary btn-xs" v-on:click="init(obj)">编辑</button>
+												<button class="btn btn-danger btn-xs" v-on:click="del(obj.id)">删除</button>
+											</td>
+										</tr>
+										</tbody>
+									</table>
+									<nav aria-label="Page navigation example">
+										<ul class="pagination">
+											<li class="page-item" v-bind:class="{ disabled: preActive }">
+												<a class="page-link" href="javascript:void(0)"
+												   v-on:click="loadTable(pageInfo.pageNum - 1)">上一页</a>
+											</li>
+											<li class="page-item">
+												<a class="page-link" href="javascript:void(0)" v-if="pageInfo.pageNum > 1" v-on:click="loadTable(pageInfo.pageNum - 1)">{{pageInfo.pageNum - 1}}</a>
+											</li>
+											<li class="page-item disabled">
+												<a class="page-link" aria-disabled="true" href="javascript:void(0)">{{pageInfo.pageNum}}</a>
+											</li>
+											<li class="page-item">
+												<a class="page-link" href="javascript:void(0)" v-if="pageInfo.hasNextPage" v-on:click="loadTable(pageInfo.pageNum + 1)">{{pageInfo.pageNum + 1}}</a>
+											</li>
+											<li class="page-item" v-bind:class="{ disabled: nextActive }">
+												<a class="page-link" href="javascript:void(0)" v-on:click="loadTable(pageInfo.hasNextPage? (pageInfo.pageNum + 1) : pageInfo.pageNum)">下一页</a>
+											</li>
+										</ul>
+									</nav>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 表格主体结束-->
+		</div>
+		<!-- 主体结束 -->
+	</div>
+	<!-- 模态框（Modal） -->
+	<div class="modal" tabindex="-1" role="dialog" id="mod">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<span class="modal-title">请填写信息</span>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="entity={sex:'男'}">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<input type="hidden" id="id" name="id" v-model="entity.id">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">姓名</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control" v-model="entity.name" placeholder="请输入姓名" id="name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">昵称</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control" v-model="entity.nickName" placeholder="请输入昵称" id="nickName">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">性别</label>
+							<div class="col-sm-7">
+								<label class="radio-inline">
+									<input type="radio" value="男" v-model="entity.sex" id="sex">男
+								</label>
+								<label class="radio-inline">
+									<input type="radio" value="女" v-model="entity.sex" id="sex">女
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">年龄</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control" v-model="entity.age" placeholder="请输入年龄" id="age">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">生日</label>
+							<div class="col-sm-7">
+								<div class="block">
+									<el-date-picker v-model="entity.birthday" id="birthday" type="datetime" clearable value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">手机号</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control" v-model="entity.phone" placeholder="请输入手机号" id="phone">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">地址</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control" v-model="entity.address" placeholder="请输入地址" id="address">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">编号</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control" v-model="entity.code" placeholder="请输入编号" id="code">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">邮箱</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control" v-model="entity.email" placeholder="请输入邮箱" id="email">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">身份证</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control" v-model="entity.cardId" placeholder="请输入身份证" id="cardId">
+							</div>
+						</div>
+
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" @click="entity={sex:'男'}">关闭</button>
+					<button type="button" class="btn btn-primary" v-on:click="update()">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="../js/jquery-1.10.2.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/my.js"></script>
+<script src="../js/vue2.6.11/vue.min.js"></script>
+<script src="../js/vue2.6.11/axios.js"></script>
+<script src="../js/element/index.js"></script>
+
+<script>
+	function msg(type, msg) {
+		Vue.prototype.$message({
+			type: type, // success（成功）、warning（警告）, error(错误)
+			message: msg,
+			duration: 2000,
+			offset: 100,
+			center: true
+		})
+	}
+
+	new Vue({
+		el: '#wrapper',
+		data: {
+			options: [
+				{ value: 1, label: '系统管理员' },
+				{ value: 2, label: '客服人员' },  // 根据实际role值调整
+				{ value: 3, label: '商家管理' }
+			],
+			authority: [],
+			permission: [],
+			storeUser: JSON.parse(localStorage.getItem("user")),
+			name: '',
+			user: {},
+			system:{},
+			objs: [],
+			pageInfo: {},
+			preActive: true,
+			nextActive: true,
+			entity: {
+				sex: '男'
+			}
+		},
+		created: function () {
+
+			this.loadTable(1);
+
+			this.user = JSON.parse(localStorage.getItem('user'));
+			this.system = JSON.parse(localStorage.getItem('system'));
+			axios.get("/permission/1").then(res => {
+				if (res.data.code === '0') {
+					this.permission = res.data.data;
+				} else {
+					msg('error', res.data.msg);
+				}
+			});
+
+			axios.get("/authority").then(res => {
+				if (res.data.code === '0') {
+					this.authority = res.data.data;
+				} else {
+					msg('error', res.data.msg);
+				}
+			});
+
+
+		},
+		methods: {
+			// 新增单选事件处理方法
+			handleRadioChange(user, newRole) {
+				// 权限验证
+				if (!this.hasPermission(3)) { // 假设3是修改权限的标识
+					msg('warning', '您没有修改权限');
+					this.$nextTick(() => {
+						user.role = this.getOriginalRole(user.id); // 恢复原始值
+					});
+					return;
+				}
+				// 确认对话框
+				this.$confirm(`确定将 ${user.name} 的级别修改为 ${this.getRoleLabel(newRole)} 吗？`, '系统提示', {
+					confirmButtonText: '确认',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					this.entity = JSON.parse(JSON.stringify(user));
+					// 发起修改请求
+					if (checkValid(this.entity)) {
+						axios.put(
+								"/adminInfo", this.entity
+						).then(res => {
+							if (res.data.code === '0') {
+								msg('success', '授权成功');
+								this.logRoleChange(user, newRole);
+								this.loadTable(1);
+							} else {
+								this.revertRole(user);
+								msg('error', res.data.msg);
+							}
+						}).catch(() => {
+							this.revertRole(user);
+						});
+					}
+
+				}).catch(() => {
+					this.revertRole(user);
+				});
+			},
+			// 获取原始级别（从服务器或本地缓存）
+			getOriginalRole(userId) {
+				const originalUser = this.objs.find(u => u.id === userId);
+				return originalUser ? originalUser.role : 1;
+			},
+
+			// 恢复级别
+			revertRole(user) {
+				this.$nextTick(() => {
+					user.role = this.getOriginalRole(user.id);
+				});
+			},
+
+			// 获取级别标签
+			getRoleLabel(value) {
+				const option = this.options.find(o => o.value === value);
+				return option ? option.label : '未知级别';
+			},
+
+			// 记录日志
+			logRoleChange(user, newRole) {
+				console.log(`[审计日志] 用户 ${this.user.name} 修改了 ${user.name} 的级别为 ${newRole}`);
+				// 这里可以添加实际的日志提交逻辑
+			},
+
+			// 权限检查方法
+			hasPermission(permissionCode) {
+				return this.permission.includes(permissionCode);
+			},
+
+			loadTable(pageNum) {
+				let name = this.name === '' ? "all" : this.name;
+				axios.get("/adminInfo/page/" + name + "?pageNum=" + pageNum).then(res => {
+					if (res.data.code === '0') {
+						this.objs = res.data.data.list;
+						this.pageInfo = res.data.data;
+						this.preActive = !(this.pageInfo.hasPreviousPage);
+						this.nextActive = !(this.pageInfo.hasNextPage);
+
+					} else {
+						msg('error', res.data.msg);
+					}
+				});
+			},
+			init(o) {
+
+				this.entity = JSON.parse(JSON.stringify(o));
+				$('#mod').modal('show');
+			},
+			add() {
+
+				this.entity = {sex:'男'};
+				$('#mod').modal('show');
+			},
+			update() {
+				if (checkValid(this.entity)) {
+					if (!this.entity.id) {
+						axios.post(
+								"/adminInfo", this.entity
+						).then(res => {
+							if (res.data.code === '0') {
+								msg('success', '添加成功');
+								$('#mod').modal('hide');
+								this.loadTable(1);
+							} else {
+								msg('error', res.data.msg);
+							}
+						})
+					} else {
+						axios.put(
+								"/adminInfo", this.entity
+						).then(res => {
+							if (res.data.code === '0') {
+								msg('success', '更新成功');
+								$('#mod').modal('hide');
+								this.loadTable(1);
+							} else {
+								msg('error', res.data.msg);
+							}
+						})
+					}
+				}
+			},
+			del(id) {
+
+				let _this = this;
+				this.$confirm('确认删除？', '系统提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					cancelButtonClass: 'btn-custom-cancel',
+					type: 'warning'
+				}).then(function(){
+					axios.delete("/adminInfo/" + id).then(res => {
+						if (res.data.code === '0') {
+							msg('success', '删除成功');
+							_this.loadTable(1);
+						} else {
+							msg('error', res.data.msg);
+						}
+					});
+				}).catch(function() {
+					console.log("取消成功！");
+				});
+			},
+			downModel() {
+				location.href = '/adminInfo/getExcelModel';
+			},
+			clickUpload: function (e) {
+
+			},
+			upload: function () {
+				let files = this.$refs.file.files;
+				for (let i = 0; i < files.length; i++) {
+					let formData = new FormData();
+					formData.append('file', files[i]);
+					axios.post('/adminInfo/upload', formData, {
+						'Content-Type': 'multipart/form-data'
+					}).then(res => {
+						if (res.data.code === '0') {
+							msg('success', '批量导入成功');
+							this.loadTable(1);
+						} else {
+							msg('error', res.data.msg);
+						}
+					})
+				}
+			},
+			logout() {
+				logout();
+				enterEndPage(1);
+			}
+		}
+	})
+</script>
+</body>
+</html>

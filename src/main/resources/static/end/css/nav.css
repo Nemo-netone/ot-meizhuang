@@ -1,0 +1,126 @@
+/*左侧导航菜单    home*/
+.sideMenu {
+    /*border-right: 1px solid #ddd;*/
+    border-bottom: 3px solid #ddd;
+    background-color: #faf0e6;
+}
+
+.menuW {
+    width: 260px;
+}
+
+.main {
+    margin-left: 260px;
+}
+
+/*菜单栏头部*/
+.sideMenu .head {
+    height: 70px;
+    line-height: 70px;
+    color: #660066;
+    background-color: #faf0e6;
+    text-align: center;
+    /*font-weight: bold;*/
+    font-size: 25px;
+}
+
+/*一级标题*/
+.sideMenu h3 {
+    position: relative;
+    background-image: linear-gradient(to bottom, #faf0e6, #ddd);
+    color: #660066;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 15px;
+    /*border-top: 1px solid #e3e3e3;*/
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+/*一级菜单图标*/
+.sideMenu ul .nLi i {
+    font-size: 15px;
+    margin-right: 15px;
+    position: relative;
+    top: 0;
+}
+
+/*一级菜单箭头*/
+.sideMenu ul .nLi .arrow {
+    position: absolute;
+    top: 12px;
+    right: 10px;
+}
+
+.sideMenu ul .nLi.on .sub {
+    display: block;
+}
+
+.sideMenu ul .nLi .sub {
+    /*padding: 8px 0;*/
+    display: none;
+}
+
+.sideMenu ul .nLi .sub li {
+    height: 40px;
+    line-height: 40px;
+    list-style: none;
+}
+
+.sideMenu ul .nLi .sub li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    color: #660066;
+    text-decoration: none;
+    padding: 0 25px;
+    font-weight: bold;
+}
+
+.sideMenu ul .nLi h3.active {
+    background-image: linear-gradient(to bottom, #faf0e6 , #00CCCC);
+    color: #660066;
+}
+
+.sideMenu ul .nLi .sub li a.active {
+    background-image: linear-gradient(to bottom, #faf0e6 , #00CCCC);
+    color: #660066;
+}
+
+.sideMenu ul .nLi .sub li a.active i {
+    color: #660066;
+}
+
+.sideMenu ul .nLi .sub li a:hover {
+    background-image: linear-gradient(to bottom, #faf0e6 , #00CCCC);
+    color: #660066;
+}
+
+/*左侧导航菜单    end*/
+
+/* 右侧顶部 */
+.main-head {
+    height: 70px;
+    line-height: 70px;
+    background-color: #faf0e6 ;
+}
+
+.main-head a {
+    color: #660066;
+    font-size: 16px;
+    margin: 0 20px
+}
+
+/**
+table页面标题
+ */
+.table-title {
+    color: #333333 ;
+    border-bottom: 1px dashed #333333 ;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    font-size: 30px;
+    font-style: italic;
+}

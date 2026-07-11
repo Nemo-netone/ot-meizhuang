@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta http-equiv="content-type" content="no-cache, must-revalidate"/>
+    <meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT"/>
+    <title>系统帮助</title>
+    <link href="/front/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/front/css/my.css" rel="stylesheet">
+    <link href="/front/css/nav.css" rel="stylesheet">
+
+    <style>
+        #notice-box li {
+            margin-bottom: 10px;
+        }
+        #view-notice-body img {
+            width: 98%;
+        }
+        #view-notice-body {
+            width: 98%;
+            h1 {
+                color: #333;
+                font-size: 28px;
+                text-align: center;
+            }
+
+            h2 {
+                color: #555;
+                font-size: 22px;
+                margin-top: 30px;
+            }
+
+            p {
+                color: #777;
+                margin-bottom: 15px;
+            }
+
+            ul {
+                list-style-type: disc;
+                padding-left: 20px;
+            }
+
+            li {
+                margin-bottom: 10px;
+            }
+        }
+
+    </style>
+</head>
+<body style="background-color: #f2dede">
+<div id="wrapper" v-cloak>
+    <!-- 头部开始 -->
+    <div style="width: 100%; height: 60px; line-height: 60px; background-color: #f13897">
+        <div class="container">
+            <div class="col-md-6" style="text-align: left">
+              <span v-if="!user.name">
+                <a href="javascript:void(0)" @click="enterEndPage(3)" style="color: white; margin-right: 20px" >登录</a>
+                <a href="/end/page/register.html" target="_blank" style="color: white">注册</a>
+                </span>
+            </div>
+            <div class="col-md-6" style="color: yellow; text-align: right">
+                <span v-if="user.name">
+                    欢迎您，{{user.name}}
+                    <a style="color: white" href="javascript:void(0)" @click="logout">退出</a>
+                    <a v-if="isCollect" style="margin-left: 10px" href="collectInfo.html">收藏夹</a>
+                </span>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div class="container">
+        <div style="width: 100%; height: 80px;border-bottom: 1px solid #ccc">
+            <div class="col-md-3" style="height: 80px; display: flex; justify-content: left;align-items: center;
+                     font-size: 30px;">
+                <a style="color: hotpink;" href="/front/index.html">{{system.title}}</a>
+            </div>
+            <div class="col-md-9">
+                <div class="row" style="height: 80px; line-height: 80px">
+                    <ul style="display: flex;">
+                        <li class="nav-item"><a href="index.html">首页</a></li>
+                        <li class="nav-item"><a href="advertiserInfo.html">公告信息</a></li>
+                        <li class="nav-item"><a href="messageInfo.html">美妆资讯分享</a></li>
+                        <li class="nav-item"><a href="cartInfo.html">购物车信息</a></li>
+                        <li class="nav-item"><a href="orderInfo.html">订单处理</a></li>
+                        <li class="nav-item"><a href="commentInfo.html">评价信息</a></li>
+                        <li class="nav-item"><a href="customerInquiry.html">客户咨询</a></li>
+                        <li class="nav-item"><a href="systemHelp.html">系统帮助</a></li>
+                        <li class="nav-item"><a href="javascript:void(0)" @click="personalPage">个人信息</a></li>
+                        <li class="nav-item"><a href="javascript:void(0)" @click="enterEndPage(1)">进入后台系统</a></li>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 头部结束 -->
+    <div class="container" style="margin-top: 10px">
+            <div class="row">
+                <div class="col-md-20">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <b>系统帮助</b><br>
+
+                        </div>
+                        <div class="panel-body" id="view-notice-body"> <h1>悦容美妆商城 - 高端美妆一站式购物平台</h1>
+                            <p>悦容美妆商城是一家专注于高端美妆产品的在线销售平台，致力于为爱美人士提供一站式美妆购物体验。随着线上消费趋势的日益增强，悦容美妆商城借助先进的网上商城系统，实现了销量与品牌影响力的双重飞跃。</p>
+                            <h2>系统特色与优势</h2>
+                            <ul>
+                                <li>
+                                    <strong>个性化营销工具</strong>：悦容美妆商城利用网上商城系统提供的个性化营销工具，如限时折扣、满减优惠、会员专享等，有效激发了消费者的购买欲望。特别是在节假日和重要促销活动期间，通过精准推送优惠券和折扣信息，吸引了大量用户的关注和参与。
+                                </li>
+                                <li>
+                                    <strong>智能客户分类与推荐</strong>：系统支持对客户进行智能分类与标签化管理，基于用户的购买历史和浏览行为，为每位用户推荐符合其喜好的美妆产品。这种个性化推荐功能不仅提高了用户的购物体验，还显著提升了商品的转化率。
+                                </li>
+                                <li>
+                                    <strong>丰富多样的促销活动</strong>：商城定期举办各类促销活动，如新品上市预售、品牌日特惠、节日限定礼盒等，通过丰富的活动形式和诱人的优惠力度，吸引了大量用户的关注和参与。同时，利用直播、短视频等新媒体形式进行产品展示和互动，进一步提升了用户的参与度和购买意愿。
+                                </li>
+                                <li>
+                                    <strong>优化商品信息与展示</strong>：悦容美妆商城注重商品信息的准确性和完整性，要求商家提供详尽的商品描述、高清图片及真实价格信息。同时，通过搜索引擎优化技术提升商品在搜索结果中的排名，确保用户能够轻松找到所需商品。此外，商城还设置了专业的美妆评测和试用报告板块，为消费者提供客观、全面的产品参考。
+                                </li>
+                            </ul></div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+</div>
+
+<!--js库文件-->
+<script src="js/jquery-1.10.2.js"></script>
+<script src="js/vue2.6.11/vue.min.js"></script>
+<script src="js/vue2.6.11/axios.js"></script>
+<script src="js/my.js"></script>
+
+<script>
+    new Vue({
+        el: '#wrapper',
+        data: {
+            isCollect: false,
+            user: {},
+            system:{},
+            currentId: 0,
+            isShow: false,
+            advertiserList: [],
+            currentAdvertiser: {}
+        },
+
+        created: function () {
+        this.system = JSON.parse(localStorage.getItem('system'));
+            axios.get('/auth').then(res => {
+                if (res.data.code === '0') {
+                    this.user = res.data.data;
+                    if (this.user.level !== 3) {
+                        this.isShow = true;
+                    }
+                }
+            });
+            this.currentId = this.getQueryVariable('id');
+            this.loadAdvertiserInfo();
+        },
+
+        methods: {
+            loadAdvertiserInfo() {
+                axios.get('/advertiserInfo/page/all?pageSize=10').then(res => {
+                    if (res.data.code === '0') {
+                        this.advertiserList = res.data.data.list;
+                        this.advertiserList.forEach(item => {
+                            if(parseInt(this.currentId) === item.id) {  // 当前选择的公告
+                                item.isActive = true;
+                                this.currentAdvertiser = item;
+                            } else {
+                                item.isActive = false;
+                            }
+                        })
+                    }
+                })
+            },
+            getQueryVariable(variable) {
+                let query = window.location.search.substring(1);
+                let vars = query.split("&");
+                for (let i = 0; i < vars.length; i++) {
+                    let pair = vars[i].split("=");
+                    if (pair[0] === variable) {
+                        return pair[1];
+                    }
+                }
+                return '1';
+            },
+            logout() {
+                axios.get("/logout").then(res => {
+                    if(res.data.code === '0') {
+                        location.href = '/front/index.html';
+                    } else {
+                        msg('error', res.data.msg);
+                    }
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* 定义带有指向右边小尾巴的圆角矩形样式 */
+    .rounded-rect-with-right-tail {
+      position: relative;
+      width: 200px;
+      height: 120px;
+      background-color: #3498db;
+      border-radius: 10px;
+      color: white;
+      padding: 15px;
+      box-sizing: border-box;
+      margin-right: 30px; /* 给小尾巴留出空间 */
+    }
+
+    /* 使用伪元素 ::after 创建指向右边的小尾巴 */
+    .rounded-rect-with-right-tail::after {
+      content: "";
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 15px solid transparent;
+      border-bottom: 15px solid transparent;
+      border-left: 15px solid #3498db;
+    }
+  </style>
+</head>
+
+<body>
+<!-- 使用定义好的样式类 -->
+<div class="rounded-rect-with-right-tail">
+  这是一个带有指向右边小尾巴的圆角矩形。
+</div>
+</body>
+
+</html>
