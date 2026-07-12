@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="content-type" content="no-cache, must-revalidate" />
+    <meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT"/>
+    <title>评论信息</title>
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/font-awesome.css">
+    <link rel="stylesheet" href="../css/element/index.css">
+    <link href="../css/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/my.css">
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        .ql-snow .ql-editor img {
+            width: 400px;
+        }
+
+        .other-div {
+            /*border: 1px solid #ccc;*/
+            background-color: #f8f8f8;
+
+            display: inline-block;
+            position: relative;
+            border-radius: 8px;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-left: 10px; /* 给小尾巴留出空间 */
+        }
+        /* 使用伪元素 ::after 创建指向左边的小尾巴 */
+        .other-div::after {
+            content: "";
+            position: absolute;
+            left: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 8px solid #f8f8f8;
+        }
+
+
+
+        .me-div {
+            /*border: 1px solid #ccc;*/
+            background-color: #dcf8c6;
+            padding: 8px;
+            display: inline-block;
+            position: relative;
+            border-radius: 8px;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-right: 10px; /* 给小尾巴留出空间 */
+        }
+        /* 使用伪元素 ::after 创建小尾巴 */
+        .me-div::after {
+            content: "";
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 8px solid #dcf8c6;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper" v-cloak>
+    <!--导航栏-->
+    <div class="menuW" style="float: left">
+        <div class="sideMenu">
+            <div class="head">{{system.title}}</div>
+            <ul>
+                <li class="nLi">
+                    <h3><i class="fa fa-dashboard"></i>首页<span class="fa fa-angle-up arrow"></span></h3>
+                    <ul class="sub">
+                        <li><a href="index.html"><i class="fa fa-dashboard"></i>数据分忻</a></li>
+                    </ul>
+                </li>
+
+                <li class="nLi"  v-if="this.user.role == 3">
+                    <h3><i class="fa fa fa-dashboard icon"></i>商家管理<span class="fa fa-angle-up arrow"></span>
+                    </h3>
+                    <ul class="sub">
+
+                        <li v-if="authority.indexOf(1000007) != -1">
+                            <a href="shopInfoSet.html"><i class="fa fa-table"></i>店铺信息设置与维护</a>
+                        </li>
+                        <li v-if="authority.indexOf(1000008) != -1">
+                            <a href="messageInfo.html"><i class="fa fa-table"></i>美妆知识资讯分享</a>
+                        </li>
+                        <li v-if="authority.indexOf(1000009) != -1">
+                            <a href="typeInfo.html"><i class="fa fa-table"></i>商品类别管理</a>
+                        </li>
+                        <li v-if="authority.indexOf(1000010) != -1">
+                            <a href="goodsInfo.html"><i class="fa fa-table"></i>商品管理</a>
+                        </li>
+                        <li v-if="authority.indexOf(1000011) != -1">
+                            <a href="orderInfo.html"><i class="fa fa-table"></i>订单处理</a>
+                        </li>
+                        <li v-if="authority.indexOf(1000012) != -1">
+                            <a href="marketingCampaign.html"><i class="fa fa-table"></i>营销活动设置</a>
+                        </li>
+
+                        <li v-if="authority.indexOf(1000013) != -1">
+                            <a href="adminInfo.html"><i class="fa fa-table"></i>客服团队管理</a>
+                        </li>
+                        <li v-if="authority.indexOf(1000014) != -1">
+                            <a href="adminInfo.html"><i class="fa fa-table"></i>店铺系统布局调整</a>
+
+                        </li>
+                    </ul>
+                </li>
+                <li class="nLi on"  v-if="this.user.role == 2">
+                    <h3><i class="fa fa fa-dashboard icon"></i>客服人员<span class="fa fa-angle-up arrow"></span>
+                    </h3>
+                    <ul class="sub">
+
+                        <li v-if="authority.indexOf(2000001) != -1">
+                            <a href="commentInfo.html" class="active"><i class="fa fa-table"></i>用户咨询回复</a>
+                        </li>
+
+                        <li v-if="authority.indexOf(2000002) != -1">
+                            <a href="orderIssueHandling.html"><i class="fa fa-table"></i>订单问题处理</a>
+                        </li>
+                        <li v-if="authority.indexOf(2000003) != -1">
+                            <a href="orderReturnsExchanges.html"><i class="fa fa-table"></i>商品退换货协助</a>
+                        </li>
+                        <li v-if="authority.indexOf(2000004) != -1">
+                            <a href="orderSaleServiceFollow.html"><i class="fa fa-table"></i>售后服务跟进</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nLi"  v-if="this.user.role == 1">
+                    <h3><i class="fa fa fa-dashboard icon"></i>系统管理员<span class="fa fa-angle-up arrow"></span>
+                    </h3>
+                    <ul class="sub">
+                        <li v-if="authority.indexOf(3000001) != -1">
+                            <a href="systemInfoSet.html"><i class="fa fa-table"></i>系统配置与维护</a>
+                        </li>
+                        <li v-if="authority.indexOf(3000002) != -1">
+                            <a href="userInfo.html"><i class="fa fa-table"></i>用户与商家审核管理</a>
+                        </li>
+                        <li v-if="authority.indexOf(3000003) != -1">
+                            <a href="accounSecurityRole.html"><i class="fa fa-table"></i>数据安全管理和权限设置</a>
+                        </li>
+                        <li v-if="authority.indexOf(3000004) != -1">
+                           <a href="troubleshooting.html"><i class="fa fa-table"></i>故障排查与系统升级</a>
+                        </li>
+                        <li v-if="authority.indexOf(3000005) != -1">
+                            <a href="dataAnalysis.html"><i class="fa fa-table"></i>数据分析报告</a>
+                        </li>
+                        <li v-if="authority.indexOf(3000006) != -1">
+                            <a href="advertiserInfo.html"><i class="fa fa-table"></i>公告信息</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" @click="personalPage"><i class="fa fa-user"></i>个人信息</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nLi">
+                    <h3><i class="fa fa-unlock-alt"></i>修改密码<span class="fa fa-angle-up arrow"></span></h3>
+                    <ul class="sub">
+                        <li>
+                            <a href="updatePassword.html"><i class="fa fa-unlock-alt"></i>修改密码</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nLi">
+                    <h3><i class="fa fa-power-off"></i>退出登录<span class="fa fa-angle-up arrow"></span></h3>
+                    <ul class="sub">
+                        <li>
+                            <a href="javascript:void(0)" @click="logout"><i class="fa fa-power-off"></i>退出登录</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 主体 -->
+    <div class="main">
+        <!-- 头部开始 -->
+        <div class="main-head" style="width: 100%; display: flex">
+            <div style="flex: 1; text-align: right">
+                <a href="javascript:void(0)" @click="personalPage">当前登录：<span style="color: #333333">{{user.name}}</span></a>
+                <a href="javascript:void(0)" @click="logout">退出登录</a>
+            </div>
+        </div>
+        <!-- 头部结束 -->
+
+        <!-- 主体开始 -->
+        <div style="padding: 0 20px">
+            <div>
+                <div class="table-title">用户咨询回复</div>
+            </div>
+            <!-- 表格主体-->
+            <div style="margin-top: 10px">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">用户咨询回复（{{totalMessage}}）</div>
+                            <div class="panel-body">
+                                <div class="container" >
+                                    <div class="row" style="margin: 0px 0">
+                                        <div style="background-color: white; min-height: 300px;font-size: 14px;">
+                                            <div id="comment-content" >
+                                                <div v-for="item in messages">
+                                                    <div class="col-md-1" style="text-align: right;padding: 8px;">{{item.name}}</div>
+                                                    <div class="col-md-10">
+                                                        <div class="row" style="padding: 0 40px">
+                                                            <div class="col-md-9" style="text-align: justify;"><div class="other-div">
+                                                                {{item.content}}
+                                                            </div></div>
+                                                            <div class="col-md-3"></div>
+                                                            <div style="color: #888" v-for="child in item.children">
+                                                                <div class="col-md-12" style="margin-top: 10px; "> </div>
+                                                                <div class="col-md-9" style="text-align: right">
+                                                                    <div class="me-div">
+                                                                        {{child.content}}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3" style="padding: 8px;">{{child.name}}</div>
+                                                            </div>
+                                                            <div class="col-md-12" style="margin-top: 10px">
+                                                                <input type="text" class="form-control" style="width: 75%; display: inline-block" v-model="item.replayText">
+                                                                <button class="btn btn-sm " @click="reply(item.id, item.replayText)">回复</button>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12"><hr  style="margin: 5px 0"/></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- 主体结束 -->
+    </div>
+</div>
+
+<script src="../js/jquery-1.10.2.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/my.js"></script>
+<script src="../js/vue2.6.11/vue.min.js"></script>
+<script src="../js/vue2.6.11/axios.js"></script>
+<script src="../js/element/index.js"></script>
+<script src="../js/quill.js"></script>
+
+<script>
+    Date.prototype.Format = function (fmt) { // author: meizz
+        let o = {
+            "M+": this.getMonth() + 1, // 月份
+            "d+": this.getDate(), // 日
+            "h+": this.getHours(), // 小时
+            "m+": this.getMinutes(), // 分
+            "s+": this.getSeconds(), // 秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), // 季度
+            "S": this.getMilliseconds() // 毫秒
+        };
+        if (/(y+)/.test(fmt))
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    };
+
+    new Vue({
+        el: '#wrapper',
+        data: {
+            messages: [],
+            totalMessage: 0,
+            isShow: false,
+            user: {},
+            system:{},
+            authority: [],
+            isCollect: false
+        },
+
+        created: function() {
+            this.system = JSON.parse(localStorage.getItem('system'));
+
+            this.user = JSON.parse(localStorage.getItem('user'));
+            axios.get("/authority").then(res => {
+                if (res.data.code === '0') {
+                    this.authority = res.data.data;
+                    this.isShow = true;
+                } else {
+                    msg('error', res.data.msg);
+                }
+            });
+            this.loadMessages(1);
+        },
+
+        methods: {
+            loadMessages() {
+                axios.get('/customerlnquiryInfo').then(res => {
+                    if (res.data.code === '0') {
+                        this.messages = res.data.data;
+                        this.totalMessage = this.messages.length;
+                    } else {
+                        alert(res.data.msg)
+                    }
+                })
+            },
+            submitMessage() {
+                let user = this.user;
+                if (!user || !user.name) {
+                    alert('请先登录');localStorage.setItem('level', 3);
+                    this.loadMessages();
+                    return;
+                }
+                let data = {};
+                let content = data.content = $('#message-text').val();
+                if (!content) {
+                    alert('请输入内容');
+                    return;
+                }
+                data.content = content;
+                data.name = user.name;
+                data.time = new Date().Format('yyyy-MM-dd hh:mm:ss');
+                axios.post('/customerlnquiryInfo', data).then(res => {
+                    $('#message-text').val('');
+                    alert('留言成功');
+                    this.loadMessages();
+                })
+            },
+            reply(id, content) {
+                let user = this.user;
+                if (!user || !user.name) {
+                    alert('请先登录');localStorage.setItem('level', 3);
+                    this.loadMessages();
+                    return;
+                }
+                if (!content) {
+                    alert('请输入内容');
+                    return;
+                }
+                let data = {content: content, name: user.name, time: new Date().Format('yyyy-MM-dd hh:mm:ss'), parentId: id};
+                axios.post('/customerlnquiryInfo', data).then(res => {
+                    $('#message-text').val('');
+                    alert('回复成功');
+                    this.loadMessages();
+                })
+            },
+            logout() {
+                axios.get("/logout").then(res => {
+                    if(res.data.code === '0') {
+                        location.href = '/front/index.html';
+                    } else {
+                        msg('error', res.data.msg);
+                    }
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>
