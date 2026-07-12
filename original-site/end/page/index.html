@@ -1,4 +1,4 @@
-﻿
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -241,7 +241,7 @@
              if (!localStorage.getItem('system')) {
                this.loadDefaultSystemValues();
              }
-              this.system = JSON.parse(localStorage.getItem("system"));
+              this.system = JSON.parse(localStorage.getItem("system")) || this.system;
             this.user = JSON.parse(localStorage.getItem("user"));
 
             axios.get("/authority").then(res => {

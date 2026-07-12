@@ -279,7 +279,7 @@
             authority: [],
             name: '',
             user: {},
-            system:{},
+            system:{title: '美妆商城', tel: '400-800-2026'},
             objs: [],
             pageInfo: {},
             preActive: true,
@@ -287,7 +287,7 @@
             entity: {}
         },
         created: function () {
-        this.system = JSON.parse(localStorage.getItem('system'));
+        this.system = JSON.parse(localStorage.getItem('system')) || this.system;
 
             this.user = JSON.parse(localStorage.getItem('user'));
             axios.get("/authority").then(res => {

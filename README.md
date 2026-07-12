@@ -6,11 +6,11 @@
 
 - 在线演示：https://ot-meizhuang.pages.dev
 - GitHub：https://github.com/Nemo-netone/ot-meizhuang
-- 演示账号：$(System.Collections.Hashtable.account)
+- 演示账号：管理员 `admin / admin`、普通顾客 `123 / 123456`、店铺运营 `shop01 / 123456`
 - 核心功能：商品推荐 / 商品管理
 - 生产目录：original-site/
 - 兜底目录：site/
-- 隔离数据库 schema：$(System.Collections.Hashtable.schema)
+- 隔离数据库 schema：`ot_meizhuang`
 
 ## 已验证
 
@@ -33,7 +33,7 @@
 - original-site/：从原项目构建产物或原静态资源恢复的线上站点，包含同域 Worker 兼容 API。
 - site/：此前统一作品集站点，仅保留为故障兜底，不再作为生产部署源。
 - src/：原 Java 与前端源代码。
-- supabase/schema.sql：仅操作 $(System.Collections.Hashtable.schema) 的幂等初始化脚本。
+- supabase/schema.sql：仅操作 `ot_meizhuang` 的幂等初始化脚本。
 
 ## 边界
 

@@ -48,7 +48,7 @@
                      font-size: 30px;">
 <!--                <img id="img-id" :src="/files/download/{{system.title}" style="width: 400px; margin-bottom: 5px" alt="">-->
 <!--                <img :src="this.logosrc" style="width: 100px; margin-bottom: 5px" alt="">-->
-                <a style="color: hotpink;" href="/front/index.html">{{system.title}}</a>
+                <a style="color: hotpink;" href="/front/index.html">{{system.title || '美妆商城'}}</a>
             </div>
             <div class="col-md-9">
                 <div class="row" style="height: 80px; line-height: 80px;">
@@ -209,7 +209,7 @@
             recommends: [],
             hots: [],
             user: {},
-            system:{},
+            system:{title: '美妆商城', tel: '400-800-2026'},
             logosrc:"",
             recommendPage: 1,
             recommendPages: 1,
@@ -222,7 +222,7 @@
 
                this.loadDefaultSystemValues();
 
-             this.system = JSON.parse(localStorage.getItem("system"));
+             this.system = JSON.parse(localStorage.getItem("system")) || this.system;
               axios.get('/auth').then(res => {
                 if (res.data.code === '0') {
                     this.user = res.data.data;
@@ -236,28 +236,28 @@
 
             axios.get("/typeInfo").then(res => {
                 console.error(res.data.data)
-                this.typeObjs = res.data.data;
+                this.typeObjs = res.data.data || [];
                 // 默认展示第一个分类的数据
-                this.getIndexAndGoods(this.typeObjs[0].id, 0)
+                if (this.typeObjs.length) this.getIndexAndGoods(this.typeObjs[0].id, 0)
             });
         },
         methods: {
            loadDefaultSystemValues() {
                axios.get("/shopInfo/lastDetail/").then(res => {
                    this.logosrc = '/front/img/goods/default.png';
-                   if (res.data.code === '0') {
+                   if (res.data.code === '0' && res.data.data) {
                        console.log("res.data.data;", res.data.data);
                        this.entity = res.data.data;
                        console.log("res.data.data;", res.data.data);
 
                        axios.get("/shopInfo/" + res.data.data.id).then(res => {
-                           if (res.data.code === '0') {
+                           if (res.data.code === '0' && res.data.data) {
                                console.log(res)
-                               let fileIds = JSON.parse(res.data.data.fileId);
+                               let fileIds = JSON.parse(res.data.data.fileId || '[]');
                                console.log("fileIds",fileIds);
                                // $("#view-img").empty();
                                fileIds.forEach(item => {
-                                   this.logosrc=item;
+                                   if (item) this.logosrc=item;
                                });
                                // $("#myModal").modal('show');
                            } else {
@@ -275,21 +275,21 @@
                        localStorage.setItem('system', JSON.stringify(defaultSystem));
 
                    }
-                   this.system = JSON.parse(localStorage.getItem("system"));
+                   this.system = JSON.parse(localStorage.getItem("system")) || this.system;
                    console.log("this.system", this.system);
                })
            },
 
             loadRecommends(pageNum) {
                 axios.get("/goodsInfo/recommend?pageNum=" + pageNum).then(res => {
-                    if (res.data.code === '0') {
+                    if (res.data.code === '0' && res.data.data) {
                         this.recommendPages = Math.ceil(res.data.data.total / 10);  // 默认10个/页
                         this.recommends = res.data.data.list;
                         this.recommends.forEach(item => {
                             let imgSrc = '/front/img/goods/default.png';
                             if (item.fileIds) {
-                                let fileId = JSON.parse(item.fileIds)[0];
-                                imgSrc = '/files/download/' + fileId;
+                                let fileId = JSON.parse(item.fileIds || '[]')[0];
+                                if (fileId) imgSrc = '/files/download/' + fileId;
                             }
                             item.src = imgSrc;
                         })
@@ -300,7 +300,7 @@
             },
             loadHots(pageNum) {
                 axios.get("/goodsInfo/sales?pageNum=" + pageNum).then(res => {
-                    if (res.data.code === '0') {
+                    if (res.data.code === '0' && res.data.data) {
                         this.salesPages = Math.ceil(res.data.data.total / 10);  // 默认10个/页
                         console.error(res.data.data)
 
@@ -310,8 +310,8 @@
                         this.hots.forEach(item => {
                             let imgSrc = '/front/img/goods/default.png';
                             if (item.fileIds) {
-                                let fileId = JSON.parse(item.fileIds)[0];
-                                imgSrc = '/files/download/' + fileId;
+                                let fileId = JSON.parse(item.fileIds || '[]')[0];
+                                if (fileId) imgSrc = '/files/download/' + fileId;
                             }
                             item.src = imgSrc;
                         })
@@ -323,7 +323,7 @@
             getIndexAndGoods(typeId, index) {
                 this.activeIndex = index;
                 axios.get('/goodsInfo/findByType/' + typeId).then(res => {
-                    if (res.data.code === '0') {
+                    if (res.data.code === '0' && res.data.data) {
                         this.goodsList = res.data.data;
                         if (this.goodsList.length > 5) {
                             this.goodsList = this.goodsList.slice(0, 5);
@@ -331,8 +331,8 @@
                         this.goodsList.forEach(item => {
                             let imgSrc = '/front/img/goods/default.png';
                             if (item.fileIds) {
-                                let fileId = JSON.parse(item.fileIds)[0];
-                                imgSrc = '/files/download/' + fileId;
+                                let fileId = JSON.parse(item.fileIds || '[]')[0];
+                                if (fileId) imgSrc = '/files/download/' + fileId;
                             }
                             item.src = imgSrc;
                         })
@@ -363,13 +363,13 @@
                     axios.get('/goodsInfo/searchGoods', {
                         params: {text: this.searchText}
                     }).then(res => {
-                        if (res.data.code === '0') {
+                        if (res.data.code === '0' && res.data.data) {
                             this.goodsList = res.data.data;
                             this.goodsList.forEach(item => {
                                 let imgSrc = '/front/img/goods/default.png';
                                 if (item.fileIds) {
-                                    let fileId = JSON.parse(item.fileIds)[0];
-                                    imgSrc = '/files/download/' + fileId;
+                                    let fileId = JSON.parse(item.fileIds || '[]')[0];
+                                    if (fileId) imgSrc = '/files/download/' + fileId;
                                 }
                                 item.src = imgSrc;
                             });

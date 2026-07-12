@@ -294,7 +294,7 @@
         el: '#wrapper',
         data: {
             user: {},
-            system:{},
+            system:{title: '美妆商城', tel: '400-800-2026'},
             name: '',
             entity: {},
             authority: [],
@@ -306,7 +306,7 @@
             modalData: {}
         },
         created: function () {
-        this.system = JSON.parse(localStorage.getItem('system'));
+        this.system = JSON.parse(localStorage.getItem('system')) || this.system;
 
             this.loadTable(1);
             this.user = JSON.parse(localStorage.getItem('user'));

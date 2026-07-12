@@ -209,7 +209,7 @@
             recommends: [],
             hots: [],
             user: {},
-            system:{},
+            system:{title: '美妆商城', tel: '400-800-2026'},
             logosrc:"",
             recommendPage: 1,
             recommendPages: 1,
@@ -222,7 +222,7 @@
 
                this.loadDefaultSystemValues();
 
-             this.system = JSON.parse(localStorage.getItem("system"));
+             this.system = JSON.parse(localStorage.getItem("system")) || this.system;
               axios.get('/auth').then(res => {
                 if (res.data.code === '0') {
                     this.user = res.data.data;
@@ -275,7 +275,7 @@
                        localStorage.setItem('system', JSON.stringify(defaultSystem));
 
                    }
-                   this.system = JSON.parse(localStorage.getItem("system"));
+                   this.system = JSON.parse(localStorage.getItem("system")) || this.system;
                    console.log("this.system", this.system);
                })
            },

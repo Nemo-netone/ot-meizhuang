@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8"/>
@@ -92,11 +92,11 @@
                 sex: "男",
                 level: 1
             },
-            system:{},
+            system:{title: '美妆商城', tel: '400-800-2026'},
             authorities: [],
         },
         created: function () {
-        this.system = JSON.parse(localStorage.getItem('system'));
+        this.system = JSON.parse(localStorage.getItem('system')) || this.system;
 
             axios.get("/getAuthority").then(res => {
                 if (res.data.code === '0') {

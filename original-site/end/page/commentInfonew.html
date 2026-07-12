@@ -229,13 +229,13 @@
             totalMessage: 0,
             isShow: false,
             user: {},
-            system:{},
+            system:{title: '美妆商城', tel: '400-800-2026'},
             authority: [],
             isCollect: false
         },
 
         created: function() {
-            this.system = JSON.parse(localStorage.getItem('system'));
+            this.system = JSON.parse(localStorage.getItem('system')) || this.system;
 
             this.user = JSON.parse(localStorage.getItem('user'));
             axios.get("/authority").then(res => {

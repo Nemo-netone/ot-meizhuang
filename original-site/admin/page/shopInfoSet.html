@@ -332,7 +332,7 @@
         },
         created: function () {
             this.loadLastDetail();
-            this.system = JSON.parse(localStorage.getItem('system'));
+            this.system = JSON.parse(localStorage.getItem('system')) || this.system;
 
             this.user = JSON.parse(localStorage.getItem('user'));
             axios.get("/permission/1000001").then(res => {

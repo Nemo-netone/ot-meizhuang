@@ -198,12 +198,12 @@
           totalMessage: 0,
           isShow: false,
           user: {},
-          system:{},
+          system:{title: '美妆商城', tel: '400-800-2026'},
           isCollect: false
       },
 
       created: function() {
-      this.system = JSON.parse(localStorage.getItem('system'));
+      this.system = JSON.parse(localStorage.getItem('system')) || this.system;
           axios.get('/auth').then(res => {
               if (res.data.code === '0') {
                   this.user = res.data.data;

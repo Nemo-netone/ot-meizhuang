@@ -348,7 +348,7 @@
             storeUser: JSON.parse(localStorage.getItem("user")),
             name: '',
             user: {},
-            system:{},
+            system:{title: '美妆商城', tel: '400-800-2026'},
             objs: [],
             pageInfo: {},
             preActive: true,
@@ -358,7 +358,7 @@
             }
         },
         created: function () {
-        this.system = JSON.parse(localStorage.getItem('system'));
+        this.system = JSON.parse(localStorage.getItem('system')) || this.system;
 
             this.loadTable(1);
 

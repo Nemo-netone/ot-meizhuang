@@ -270,7 +270,7 @@
         data: {
 
             user: {},
-            system:{},
+            system:{title: '美妆商城', tel: '400-800-2026'},
             authority: [],
             entity: {
                 sex: '男'
@@ -279,7 +279,7 @@
         created: function () {
 
             this.loadData();
-            this.system = JSON.parse(localStorage.getItem('system'));
+            this.system = JSON.parse(localStorage.getItem('system')) || this.system;
 
             axios.get("/authority").then(res => {
                 if (res.data.code === '0') {

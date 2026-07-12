@@ -6,11 +6,11 @@
 |---|---|
 | GitHub | https://github.com/Nemo-netone/ot-meizhuang |
 | 生产分支 | main |
-| Cloudflare Pages | $([IO.Path]::GetFileNameWithoutExtension(([uri]System.Collections.Hashtable.url).Host).Replace('.pages','')) |
+| Cloudflare Pages | ot-meizhuang |
 | 稳定 URL | https://ot-meizhuang.pages.dev |
 | 生产目录 | original-site/ |
 | API | Pages Worker / original-site/_worker.js |
-| Supabase schema | $(System.Collections.Hashtable.schema) |
+| Supabase schema | `ot_meizhuang` |
 
 ## 发布命令
 
@@ -23,8 +23,8 @@ Cloudflare secrets 沿用既有 Pages 项目配置，真实密钥不写入仓库
 ## 2026-07-12 验证
 
 - 稳定 URL：HTTP 200
-- 健康检查：service 与 $(System.Collections.Hashtable.schema) 一致
-- 登录：$(System.Collections.Hashtable.account) 成功
+- 健康检查：service 为 `ot_meizhuang-api`，schema 为 `ot_meizhuang`
+- 登录：文档中的管理员、普通顾客、店铺运营账号均成功
 - 核心列表：商品推荐 / 商品管理 有数据
 - CRUD：新增、更新、删除成功，临时记录已清理
 - 浏览器：桌面和移动端截图已更新

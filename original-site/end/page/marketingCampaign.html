@@ -294,7 +294,7 @@
         el: '#wrapper',
         data: {
             user: {},
-            system:{},
+            system:{title: '美妆商城', tel: '400-800-2026'},
             name: '',
             entity: {},
             authority: [],
@@ -307,7 +307,7 @@
         },
         created: function () {
             this.loadTable(1);
-        this.system = JSON.parse(localStorage.getItem('system'));
+        this.system = JSON.parse(localStorage.getItem('system')) || this.system;
 
             this.user = JSON.parse(localStorage.getItem('user'));
             axios.get("/permission/1000001").then(res => {
